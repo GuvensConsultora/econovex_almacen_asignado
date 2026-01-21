@@ -17,7 +17,7 @@ Motivo:
     "license": "LGPL-3",
     "depends": ["stock"],
     "data": [
-        "data/inventory_overview_action.xml",
+       # "data/inventory_overview_action.xml",
     ],
     "installable": True,
     "application": False,
