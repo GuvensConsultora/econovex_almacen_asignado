@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Inventory Overview: My Default Warehouse",
-    "version": "17.0.1",
+    "version": "19.0.1",
     "category": "Inventory/Inventory",
     "summary": "Filtra el Resumen de inventario por el almacén por defecto del usuario",
     "description": """
