@@ -1,29 +1,26 @@
-# Inventory Overview: My Default Warehouse
+# Configuración de usuario: Almacén y Diario de ventas
 
-Módulo para Odoo 19 que filtra automáticamente el **Resumen de inventario** por el almacén por defecto del usuario.
+Módulo para Odoo 19 que extiende la configuración del usuario con filtros y campos por defecto.
 
-## Descripción
+## Funcionalidades
 
-Al hacer clic en el icono de **Inventario** en la pantalla de inicio de Odoo, se abre el dashboard de operaciones (vista kanban de `stock.picking.type`) filtrado automáticamente por el almacén asignado al usuario (`res.users.property_warehouse_id`).
+### 1. Filtro automático de inventario por almacén
+
+Al hacer clic en el icono de **Inventario** en la pantalla de inicio de Odoo, se abre el dashboard de operaciones (vista kanban de `stock.picking.type`) filtrado automáticamente por el almacén asignado al usuario.
+
+### 2. Diario de ventas por defecto
+
+Agrega el campo **"Diario de ventas por defecto"** en el formulario del usuario, permitiendo asignar un diario de ventas específico a cada usuario.
 
 ## Problema que resuelve
 
-En Odoo, el dominio de una acción (`ir.actions.act_window`) se evalúa en el cliente JavaScript, donde **no existe el objeto `user`**. Por lo tanto, un dominio como:
+### Filtro de inventario
 
-```python
-[('warehouse_id', '=', user.property_warehouse_id.id)]
-```
+En Odoo, el dominio de una acción (`ir.actions.act_window`) se evalúa en el cliente JavaScript, donde **no existe el objeto `user`**. Este módulo implementa una **acción de servidor** que genera el filtro dinámicamente desde Python.
 
-**no funciona** directamente en una acción de ventana.
+### Diario de ventas
 
-## Solución
-
-Este módulo implementa una **acción de servidor** (`ir.actions.server`) que:
-
-1. Lee la acción estándar de inventario (`stock.stock_picking_type_action`)
-2. Obtiene el almacén por defecto del usuario desde `env.user.property_warehouse_id`
-3. Aplica dinámicamente el filtro `[('warehouse_id', '=', wh.id)]`
-4. Sobreescribe el menú raíz de Inventario para usar esta acción
+Permite centralizar la configuración del diario de ventas por usuario, útil para escenarios donde diferentes vendedores o equipos usan diarios distintos.
 
 ## Estructura
 
@@ -34,26 +31,36 @@ econovex_almacen_asignado/
 ├── README.md
 ├── models/
 │   ├── __init__.py
+│   ├── res_users.py
 │   └── stock_picking_type.py
 └── views/
+    ├── res_users_views.xml
     └── stock_picking_type_views.xml
 ```
 
+## Campos agregados
+
+| Modelo | Campo | Tipo | Descripción |
+|--------|-------|------|-------------|
+| `res.users` | `property_sale_journal_id` | Many2one | Diario de ventas por defecto (company_dependent) |
+
 ## Dependencias
 
-- `stock` (módulo de Inventario estándar de Odoo)
+- `stock` (módulo de Inventario)
+- `account` (módulo de Contabilidad)
 
 ## Instalación
 
 1. Copiar el módulo en el directorio de addons
 2. Actualizar la lista de aplicaciones
-3. Instalar "Inventory Overview: My Default Warehouse"
+3. Instalar "Configuración de usuario: Almacén y Diario de ventas"
 
 ## Configuración
 
-Asegurate de que cada usuario tenga configurado su **almacén por defecto** en:
+En **Ajustes > Usuarios > [Usuario] > Preferencias**:
 
-`Ajustes > Usuarios > [Usuario] > Preferencias > Almacén por defecto`
+- **Almacén por defecto**: Filtra el dashboard de inventario
+- **Diario de ventas por defecto**: Diario que se usará en operaciones de venta
 
 Si el usuario no tiene almacén asignado, el dashboard mostrará todas las operaciones sin filtrar.
 
