@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Acción de servidor que llama al método Python -->
+    <record id="action_inventory_overview_my_wh" model="ir.actions.server">
+        <field name="name">Resumen de inventario</field>
+        <field name="model_id" ref="stock.model_stock_picking_type"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_inventory_overview_my_wh()</field>
+    </record>
+
+    <!-- Sobreescribe la acción del menú raíz de Inventario -->
+    <record id="stock.menu_stock_root" model="ir.ui.menu">
+        <field name="action" ref="action_inventory_overview_my_wh"/>
+    </record>
+</odoo>
