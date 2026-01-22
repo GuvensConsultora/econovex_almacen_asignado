@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='property_warehouse_id']" position="after">
-                <field name="property_sale_journal_id"/>
+                <field name="sale_journal_id"/>
             </xpath>
         </field>
     </record>
@@ -19,7 +19,7 @@
         <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='property_warehouse_id']" position="after">
-                <field name="property_sale_journal_id"/>
+                <field name="sale_journal_id"/>
             </xpath>
         </field>
     </record>
