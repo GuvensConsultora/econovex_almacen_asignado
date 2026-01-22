@@ -15,7 +15,7 @@ Motivo del filtro de inventario:
 """,
     "author": "guven C.G.",
     "license": "LGPL-3",
-    "depends": ["stock", "account"],
+    "depends": ["sale_stock", "account"],
     "data": [
         "views/stock_picking_type_views.xml",
         "views/res_users_views.xml",

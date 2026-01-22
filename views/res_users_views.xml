@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Hereda la vista de preferencias del usuario -->
+    <!-- Vista principal del usuario -->
     <record id="view_users_form_inherit_sale_journal" model="ir.ui.view">
         <field name="name">res.users.form.inherit.sale.journal</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='property_warehouse_id']" position="after">
-                <field name="sale_journal_id"/>
+            <xpath expr="//group[@name='messaging']" position="after">
+                <group string="Ventas" name="sale_defaults">
+                    <field name="sale_journal_id"/>
+                </group>
             </xpath>
         </field>
     </record>
 
-    <!-- Hereda la vista de preferencias (formulario simplificado) -->
+    <!-- Vista de preferencias -->
     <record id="view_users_form_simple_inherit_sale_journal" model="ir.ui.view">
         <field name="name">res.users.preferences.form.inherit.sale.journal</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='property_warehouse_id']" position="after">
-                <field name="sale_journal_id"/>
+            <xpath expr="//group[@name='signature']" position="after">
+                <group string="Ventas" name="sale_defaults">
+                    <field name="sale_journal_id"/>
+                </group>
             </xpath>
         </field>
     </record>
