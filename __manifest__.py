@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Configuración de usuario: Almacén y Diario de ventas",
-    "version": "19.0.2",
+    "version": "19.0.3",
     "category": "Inventory/Inventory",
     "summary": "Filtra inventario por almacén y agrega diario de ventas por defecto al usuario",
     "description": """
 Funcionalidades:
 1. Filtra el 'Resumen de inventario' por el almacén por defecto del usuario.
 2. Agrega campo de diario de ventas por defecto en el usuario.
+3. Al crear facturas de venta, usa automáticamente el diario asignado al usuario.
 
 Motivo del filtro de inventario:
 - En el dominio de una acción (ir.actions.act_window) no existe 'user' en el evaluador JS.
