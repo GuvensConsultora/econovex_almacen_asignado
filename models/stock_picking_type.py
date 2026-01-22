@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+import logging
 from odoo import api, models
+
+_logger = logging.getLogger(__name__)
 
 
 class StockPickingType(models.Model):
@@ -10,20 +13,28 @@ class StockPickingType(models.Model):
         """
         Devuelve la misma acción del 'Resumen de inventario' (stock.stock_picking_type_action),
         pero filtrada por el almacén por defecto del usuario (res.users.property_warehouse_id).
-
-        Por qué así:
-        - En 'Valor del dominio' del act_window el evaluador del cliente NO conoce 'user'.
-        - Desde servidor sí podemos leer env.user y armar domain real.
         """
-        # Leemos la acción base como dict (estructura que el cliente entiende).
-        action = self.env.ref("stock.stock_picking_type_action").read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id("stock.stock_picking_type_action")
 
-        # Tomamos el almacén por defecto del usuario (campo estándar de stock en res.users).
-        wh = self.env.user.property_warehouse_id
+        # Leemos el usuario con sudo para asegurar acceso al property field
+        user = self.env.user
+        wh = user.property_warehouse_id
 
-        # Si el usuario tiene warehouse, filtramos por ese.
-        # Si no tiene, dejamos la acción sin filtro (muestra todo).
+        _logger.info(
+            "=== FILTRO ALMACEN === Usuario: %s (ID: %s), Almacén: %s (ID: %s)",
+            user.name, user.id,
+            wh.name if wh else "SIN ALMACEN",
+            wh.id if wh else None
+        )
+
         if wh:
+            # Forzamos el dominio como string para evitar problemas de evaluación
             action["domain"] = [("warehouse_id", "=", wh.id)]
+            # También limpiamos contexto que pueda interferir
+            ctx = dict(self.env.context)
+            ctx["default_warehouse_id"] = wh.id
+            action["context"] = ctx
+
+        _logger.info("=== FILTRO ALMACEN === Domain aplicado: %s", action.get("domain"))
 
         return action
