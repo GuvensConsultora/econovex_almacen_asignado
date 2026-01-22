@@ -18,6 +18,7 @@ Motivo del filtro de inventario:
     "depends": ["sale_stock", "account"],
     "data": [
         "views/stock_picking_type_views.xml",
+        "views/res_users_views.xml",
     ],
     "installable": True,
     "application": False,

@@ -6,24 +6,8 @@
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='messaging']" position="after">
-                <group string="Ventas" name="sale_defaults">
-                    <field name="sale_journal_id"/>
-                </group>
-            </xpath>
-        </field>
-    </record>
-
-    <!-- Vista de preferencias -->
-    <record id="view_users_form_simple_inherit_sale_journal" model="ir.ui.view">
-        <field name="name">res.users.preferences.form.inherit.sale.journal</field>
-        <field name="model">res.users</field>
-        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
-        <field name="arch" type="xml">
-            <xpath expr="//group[@name='signature']" position="after">
-                <group string="Ventas" name="sale_defaults">
-                    <field name="sale_journal_id"/>
-                </group>
+            <xpath expr="//field[@name='property_warehouse_id']" position="after">
+                <field name="sale_journal_id"/>
             </xpath>
         </field>
     </record>
