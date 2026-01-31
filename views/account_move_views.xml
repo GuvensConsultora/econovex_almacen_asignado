@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Por qué: Filtra facturas de cliente por diario del usuario
+        Patrón: ir.actions.server + menu override (igual que inventario)
+    -->
+
+    <!-- Acción de servidor que llama al método Python -->
+    <record id="action_invoices_my_journal" model="ir.actions.server">
+        <field name="name">Facturas de cliente</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_invoices_my_journal()</field>
+    </record>
+
+    <!-- Sobreescribe la acción del menú de Facturas de cliente -->
+    <record id="account.menu_action_move_out_invoice_type" model="ir.ui.menu">
+        <field name="action" ref="action_invoices_my_journal"/>
+    </record>
+</odoo>
